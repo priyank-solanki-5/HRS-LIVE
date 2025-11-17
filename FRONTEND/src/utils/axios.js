@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Get backend URL from environment variable or use default
 // In Vite, environment variables must be prefixed with VITE_ to be exposed to client
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://hrs-live.onrender.com/api';
 
 // Create axios instance with default configuration
 const axiosInstance = axios.create({

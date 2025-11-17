@@ -72,8 +72,8 @@ const PORT = process.env.PORT || 5000;
 async function start() {
   await connectToDatabase();
   // Seed default admin if not present
-  const seedEmail = process.env.ADMIN_EMAIL || "priyank687@gmail.com";
-  const seedPassword = process.env.ADMIN_PASSWORD || "admin@123";
+  const seedEmail = process.env.ADMIN_EMAIL || "admin123@gmail.com";
+  const seedPassword = process.env.ADMIN_PASSWORD || "Admin@123";
   await ensureDefaultAdmin(seedEmail, seedPassword);
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
