@@ -37,12 +37,31 @@ const corsOptions = {
     // Check if origin is in allowed list
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
-    } else {
-      // Log the blocked origin for debugging (optional)
-      console.warn(`CORS: Blocked origin: ${origin}`);
-      // Return false instead of throwing error to prevent server crash
-      callback(null, false);
+      return;
     }
+    
+    // Support Vercel preview URLs (e.g., *.vercel.app)
+    // Check if origin matches any pattern with wildcard
+    const isVercelPreview = allowedOrigins.some(allowed => {
+      if (allowed.includes('*')) {
+        // Convert wildcard pattern to regex
+        const pattern = allowed.replace(/\*/g, '.*');
+        const regex = new RegExp(`^${pattern}$`);
+        return regex.test(origin);
+      }
+      return false;
+    });
+    
+    if (isVercelPreview) {
+      callback(null, true);
+      return;
+    }
+    
+    // Log the blocked origin for debugging
+    console.warn(`CORS: Blocked origin: ${origin}`);
+    console.warn(`CORS: Allowed origins: ${allowedOrigins.join(', ')}`);
+    // Return false instead of throwing error to prevent server crash
+    callback(null, false);
   },
   credentials: true, // Allow cookies to be sent
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
