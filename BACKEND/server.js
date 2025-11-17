@@ -25,7 +25,7 @@ const corsOptions = {
     
     // Get allowed origins from environment variable or use defaults
     const allowedOrigins = process.env.ALLOWED_ORIGINS
-      ? process.env.ALLOWED_ORIGINS.split(",")
+      ? process.env.ALLOWED_ORIGINS.split(",").map(origin => origin.trim())
       : [
           "http://localhost:3000",
           "http://localhost:5173",
@@ -34,16 +34,21 @@ const corsOptions = {
           "http://127.0.0.1:5174",
         ];
     
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+    // Check if origin is in allowed list
+    if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      // Log the blocked origin for debugging (optional)
+      console.warn(`CORS: Blocked origin: ${origin}`);
+      // Return false instead of throwing error to prevent server crash
+      callback(null, false);
     }
   },
   credentials: true, // Allow cookies to be sent
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   exposedHeaders: ["Set-Cookie"],
+  optionsSuccessStatus: 200, // Some legacy browsers choke on 204
 };
 
 app.use(cors(corsOptions));
