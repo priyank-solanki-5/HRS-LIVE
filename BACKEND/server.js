@@ -32,9 +32,11 @@ const corsOptions = {
           "http://localhost:5174",
           "http://127.0.0.1:5173",
           "http://127.0.0.1:5174",
+          "https://hrs-live.vercel.app", // Production Vercel URL
+          "https://*.vercel.app", // All Vercel preview URLs
         ];
     
-    // Check if origin is in allowed list
+    // Check if origin is in allowed list (exact match)
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
       return;
@@ -53,6 +55,12 @@ const corsOptions = {
     });
     
     if (isVercelPreview) {
+      callback(null, true);
+      return;
+    }
+    
+    // Also check if origin is a Vercel domain (fallback for production)
+    if (origin.endsWith('.vercel.app')) {
       callback(null, true);
       return;
     }

@@ -14,17 +14,18 @@ export const login = async (req, res) => {
     // Set token in HTTP-only cookie (secure, not accessible via JavaScript)
     const token = result.data?.token
     if (token) {
+      const isProduction = process.env.NODE_ENV === 'production'
       res.cookie('adminToken', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        secure: isProduction, // Must be true in production for cross-origin
+        sameSite: isProduction ? 'none' : 'lax', // 'none' required for cross-origin in production
         maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
       })
       // Set a flag cookie for frontend to check auth status (not httpOnly so JS can read it)
       res.cookie('adminAuthed', 'true', {
         httpOnly: false,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        secure: isProduction, // Must be true in production for cross-origin
+        sameSite: isProduction ? 'none' : 'lax', // 'none' required for cross-origin in production
         maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
       })
     }
@@ -37,15 +38,16 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
+    const isProduction = process.env.NODE_ENV === 'production'
     res.clearCookie('adminToken', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax'
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax'
     })
     res.clearCookie('adminAuthed', {
       httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax'
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax'
     })
     return res.status(200).json({ success: true, message: 'Logged out successfully' })
   } catch (err) {
