@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../utils/axios";
+import { clearAuth } from "../../utils/cookies";
 import { useNavigate } from "react-router-dom";
 
 const AdminSettings = () => {
@@ -122,6 +123,8 @@ const AdminSettings = () => {
           await axios.post("/admin/logout");
         } catch (err) {
           console.error("Logout error:", err);
+        } finally {
+          clearAuth();
         }
         navigate("/admin", { replace: true });
         window.location.reload();

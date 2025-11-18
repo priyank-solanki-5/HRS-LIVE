@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SectionTitle from "../../components/SectionTitle";
-import { isAuthenticated } from "../../utils/cookies";
+import { isAuthenticated, setAuthFlag } from "../../utils/cookies";
 import axios from "../../utils/axios";
 
 // Backend login replaces previous hardcoded check
@@ -32,7 +32,8 @@ const AdminLogin = () => {
         throw new Error(data.message || 'Login failed')
       }
       // Token is now stored in httpOnly cookie by the server
-      // Auth flag cookie is also set by the server
+      // Auth flag cookie needs to be accessible on the frontend domain
+      setAuthFlag(true)
       navigate(redirectTo, { replace: true })
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Login failed')

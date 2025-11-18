@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import axios from '../../utils/axios';
+import { clearAuth } from '../../utils/cookies';
 
 const sidebarItems = [
   { label: 'Home', to: '/admin/dashboard/home', tag: 'HM' },
@@ -23,6 +24,7 @@ const AdminPanel = () => {
       // Call backend logout to clear cookies
       await axios.post('/admin/logout');
     } catch {}
+    clearAuth()
     navigate('/admin', { replace: true });
   };
 

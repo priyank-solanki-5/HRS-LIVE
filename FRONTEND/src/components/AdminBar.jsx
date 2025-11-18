@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from '../utils/axios'
+import { clearAuth } from '../utils/cookies'
 
 const AdminBar = () => {
   const navigate = useNavigate()
@@ -10,6 +11,7 @@ const AdminBar = () => {
       // Call backend logout to clear cookies
       await axios.post('/admin/logout');
     } catch {}
+    clearAuth()
     navigate('/admin', { replace: true })
   }
 
