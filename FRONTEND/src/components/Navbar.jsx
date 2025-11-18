@@ -74,7 +74,7 @@ const Navbar = () => {
             <Mail size={16} />
             <span>holyredeemereng@gmail.com</span>
           </div>
-          <div className="flex space-x-3 text-blue-900">
+          <div className="flex space-x-4 text-blue-900">
             <a href="#" aria-label="Facebook">
               <Facebook size={18} />
             </a>
