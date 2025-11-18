@@ -37,5 +37,22 @@ export const setAuthFlag = (value = true) => {
 
 export const clearAuth = () => {
   deleteCookie('adminAuthed');
+  // Also clear any stored admin token used for Authorization header
+  if (typeof window !== 'undefined') {
+    window.localStorage.removeItem('adminToken');
+  }
+};
+
+// Admin token helpers (stored in localStorage for API Authorization header)
+export const setAdminToken = (token) => {
+  if (typeof window === 'undefined') return;
+  if (token) {
+    window.localStorage.setItem('adminToken', token);
+  }
+};
+
+export const getAdminToken = () => {
+  if (typeof window === 'undefined') return null;
+  return window.localStorage.getItem('adminToken');
 };
 
