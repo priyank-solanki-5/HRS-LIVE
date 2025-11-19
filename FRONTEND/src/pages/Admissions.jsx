@@ -34,7 +34,7 @@ const Admissions = () => {
           "We welcome students to join our nurturing and academically strong
           environment. Admissions are open for the academic year{" "}
           <span className="font-bold">2025–26</span> for both{" "}
-          <span className="text-blue-900 font-bold">English and Gujarati mediums.</span>"
+          <span className="text-blue-900 font-bold">English and Gujarati medium.</span>"
         </p>
         <Link
           to="/admissions/apply"
