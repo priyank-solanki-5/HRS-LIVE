@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import logo from "../assets/images/logo.png"; // Update path if needed
 import { Link, useLocation } from "react-router-dom"; // Use RouterLink for navigation
+import GradientText from "../pages/GradientText";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,6 +67,15 @@ const Navbar = () => {
           <Link to="/">
             <img src={logo} alt="Logo" className="h-15 md:h-19" />
           </Link>
+
+          <GradientText
+            colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
+            animationSpeed={3}
+            showBorder={false}
+            className="custom-class"
+          >
+            <h3 className="text-2xl">holy redeemer school</h3>
+          </GradientText>
         </div>
 
         {/* Contact + Social (Desktop Only) */}
