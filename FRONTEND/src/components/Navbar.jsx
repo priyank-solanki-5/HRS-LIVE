@@ -16,7 +16,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith('/admin');
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   const navLinks = [
     { name: "Home", to: "/" },
@@ -27,10 +27,14 @@ const Navbar = () => {
       children: [
         { name: "Curricular Activities", to: "/activities/curricular" },
         { name: "Co-Curricular Activities", to: "/activities/co-curricular" },
-        { name: "Extra-Curricular Activities", to: "/activities/extra-curricular" },
+        {
+          name: "Extra-Curricular Activities",
+          to: "/activities/extra-curricular",
+        },
       ],
     },
     { name: "Events", to: "/events" },
+    { name: "Transportation", to: "/transportation" },
     { name: "About Us", to: "/about" },
     { name: "Career", to: "/career" },
     { name: "Contact Us", to: "/contact" },
@@ -68,11 +72,11 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center space-x-6 text-sm text-gray-700">
           <div className="flex items-center space-x-1">
             <Phone size={16} />
-            <a href="+91 9081544225">+91 9081544225</a>
+            <a href="+91 9081544225">+91 0123456789</a>
           </div>
           <div className="flex items-center space-x-1">
             <Mail size={16} />
-            <span>holyredeemereng@gmail.com</span>
+            <span>example@mail.com</span>
           </div>
           <div className="flex space-x-4 text-blue-900">
             <a href="#" aria-label="Facebook">
@@ -126,7 +130,11 @@ const Navbar = () => {
                         strokeWidth="2"
                         viewBox="0 0 24 24"
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19 9l-7 7-7-7"
+                        />
                       </svg>
                     </button>
                     {activeDropdown === link.name && (
@@ -137,7 +145,9 @@ const Navbar = () => {
                               key={child.name}
                               to={child.to}
                               className={`block px-5 py-2 text-sm hover:bg-blue-50 hover:text-blue-900 transition ${
-                                location.pathname === child.to ? "text-blue-900 font-semibold" : "text-gray-700"
+                                location.pathname === child.to
+                                  ? "text-blue-900 font-semibold"
+                                  : "text-gray-700"
                               }`}
                             >
                               {child.name}
@@ -164,103 +174,107 @@ const Navbar = () => {
       )}
       {/* 🔹 Mobile Nav (Animated) - Hidden on admin routes */}
       {!isAdminRoute && (
-      <AnimatePresence>
-        {isOpen && (
-          <motion.nav
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden bg-white border-t border-blue-900 shadow-md"
-          >
-            <ul className="flex flex-col space-y-4 p-5 font-medium text-gray-800">
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  {link.children ? (
-                    <div>
-                      <button
-                        type="button"
-                        className={`w-full flex items-center justify-between text-left hover:text-blue-900 transition-colors duration-300 ${
+        <AnimatePresence>
+          {isOpen && (
+            <motion.nav
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="lg:hidden bg-white border-t border-blue-900 shadow-md"
+            >
+              <ul className="flex flex-col space-y-4 p-5 font-medium text-gray-800">
+                {navLinks.map((link) => (
+                  <li key={link.name}>
+                    {link.children ? (
+                      <div>
+                        <button
+                          type="button"
+                          className={`w-full flex items-center justify-between text-left hover:text-blue-900 transition-colors duration-300 ${
+                            isLinkActive(link) ? "text-blue-900 font-bold" : ""
+                          }`}
+                          onClick={() =>
+                            setActiveDropdown((current) =>
+                              current === link.name ? null : link.name
+                            )
+                          }
+                        >
+                          {link.name}
+                          <svg
+                            className={`w-4 h-4 transition-transform duration-200 ${
+                              activeDropdown === link.name ? "rotate-180" : ""
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </button>
+                        {activeDropdown === link.name && (
+                          <div className="mt-3 space-y-3 pl-3 border-l border-blue-100">
+                            {link.children.map((child) => (
+                              <Link
+                                key={child.name}
+                                to={child.to}
+                                className={`block text-sm hover:text-blue-900 transition-colors duration-300 ${
+                                  location.pathname === child.to
+                                    ? "text-blue-900 font-semibold"
+                                    : "text-gray-700"
+                                }`}
+                                onClick={closeMobileMenu}
+                              >
+                                {child.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <Link
+                        to={link.to}
+                        className={`block hover:text-blue-900 transition-colors duration-300 ${
                           isLinkActive(link) ? "text-blue-900 font-bold" : ""
                         }`}
-                        onClick={() =>
-                          setActiveDropdown((current) =>
-                            current === link.name ? null : link.name
-                          )
-                        }
+                        onClick={closeMobileMenu}
                       >
                         {link.name}
-                        <svg
-                          className={`w-4 h-4 transition-transform duration-200 ${
-                            activeDropdown === link.name ? "rotate-180" : ""
-                          }`}
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-                      {activeDropdown === link.name && (
-                        <div className="mt-3 space-y-3 pl-3 border-l border-blue-100">
-                          {link.children.map((child) => (
-                            <Link
-                              key={child.name}
-                              to={child.to}
-                              className={`block text-sm hover:text-blue-900 transition-colors duration-300 ${
-                                location.pathname === child.to
-                                  ? "text-blue-900 font-semibold"
-                                  : "text-gray-700"
-                              }`}
-                              onClick={closeMobileMenu}
-                            >
-                              {child.name}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <Link
-                      to={link.to}
-                      className={`block hover:text-blue-900 transition-colors duration-300 ${
-                        isLinkActive(link) ? "text-blue-900 font-bold" : ""
-                      }`}
-                      onClick={closeMobileMenu}
-                    >
-                      {link.name}
-                    </Link>
-                  )}
-                </li>
-              ))}
+                      </Link>
+                    )}
+                  </li>
+                ))}
 
-              {/* Contact + Social (Mobile Only) */}
-              <div className="mt-6 space-y-3 text-sm text-gray-700">
-                <div className="flex items-center space-x-2">
-                  <Phone size={16} />
-                  <span>+91 9081544225</span>
+                {/* Contact + Social (Mobile Only) */}
+                <div className="mt-6 space-y-3 text-sm text-gray-700">
+                  <div className="flex items-center space-x-2">
+                    <Phone size={16} />
+                    <span>+91 9081544225</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Mail size={16} />
+                    <span>holyredeemereng@gmail.com</span>
+                  </div>
+                  <div className="flex space-x-4 text-blue-900 pt-2">
+                    <a href="#" aria-label="Facebook">
+                      <Facebook size={20} />
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                      <Instagram size={20} />
+                    </a>
+                    <a href="#" aria-label="LinkedIn">
+                      <Linkedin size={20} />
+                    </a>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Mail size={16} />
-                  <span>holyredeemereng@gmail.com</span>
-                </div>
-                <div className="flex space-x-4 text-blue-900 pt-2">
-                  <a href="#" aria-label="Facebook">
-                    <Facebook size={20} />
-                  </a>
-                  <a href="#" aria-label="Instagram">
-                    <Instagram size={20} />
-                  </a>
-                  <a href="#" aria-label="LinkedIn">
-                    <Linkedin size={20} />
-                  </a>
-                </div>
-              </div>
-            </ul>
-          </motion.nav>
-        )}
-      </AnimatePresence>
+              </ul>
+            </motion.nav>
+          )}
+        </AnimatePresence>
       )}
     </header>
   );
