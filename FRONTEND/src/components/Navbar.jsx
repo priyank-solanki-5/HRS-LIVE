@@ -63,7 +63,7 @@ const Navbar = () => {
       {/* 🔹 Top Section */}
       <div className="flex items-center justify-between px-4 md:px-10 py-3">
         {/* Logo */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-18">
           <Link to="/">
             <img src={logo} alt="Logo" className="h-15 md:h-19" />
           </Link>
@@ -74,7 +74,7 @@ const Navbar = () => {
             showBorder={false}
             className="custom-class"
           >
-            <h3 className="text-2xl">holy redeemer school</h3>
+            <h3 className="text-4xl">Holy Redeemer School</h3>
           </GradientText>
         </div>
 
